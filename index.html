@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EnergyWise | Electricity Tracker</title>
+
+    <!-- Tailwind CSS is used for the page layout and design. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="text-slate-800">
+    <!-- Header and navigation -->
+    <header class="bg-white border-b sticky top-0 z-10">
+      <div
+        class="max-w-6xl mx-auto px-5 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
+        <div>
+          <h1 class="text-2xl font-bold text-emerald-800">⚡ EnergyWise</h1>
+          <p class="text-sm text-slate-500">Household electricity tracker</p>
+        </div>
+
+        <nav class="flex flex-wrap gap-4 text-sm font-semibold">
+          <a href="#dashboard" class="hover:text-emerald-700">Dashboard</a>
+          <a href="#appliances" class="hover:text-emerald-700">Appliances</a>
+          <a href="#calculator" class="hover:text-emerald-700"
+            >Bill calculator</a
+          >
+          <a href="#weather" class="hover:text-emerald-700">Weather</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-5 py-8 space-y-7">
+      <!-- Dashboard summary -->
+      <section id="dashboard">
+        <div
+          class="rounded-3xl p-7 md:p-9 text-white bg-gradient-to-r from-emerald-950 to-emerald-700"
+        >
+          <p class="text-lime-300 text-sm font-bold tracking-widest">
+            YOUR ENERGY, IN CONTROL
+          </p>
+          <div
+            class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-2"
+          >
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold">
+                Good energy starts at home.
+              </h2>
+              <p class="text-emerald-100 mt-2">
+                Track appliance usage and estimate your electricity cost.
+              </p>
+            </div>
+            <a
+              href="#appliances"
+              class="inline-block bg-lime-300 text-emerald-950 font-bold rounded-xl px-5 py-3"
+              >Manage appliances</a
+            >
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+          <div
+            class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5"
+          >
+            <p class="text-sm text-slate-500">Monthly usage</p>
+            <p id="monthlyUsage" class="text-3xl font-bold mt-2">0 kWh</p>
+          </div>
+          <div
+            class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5"
+          >
+            <p class="text-sm text-slate-500">Estimated bill</p>
+            <p id="estimatedBill" class="text-3xl font-bold mt-2">৳0.00</p>
+          </div>
+          <div
+            class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5"
+          >
+            <p class="text-sm text-slate-500">Appliance quantity</p>
+            <p id="applianceCount" class="text-3xl font-bold mt-2">0</p>
+          </div>
+          <div
+            class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5"
+          >
+            <p class="text-sm text-slate-500">Daily usage</p>
+            <p id="dailyUsage" class="text-3xl font-bold mt-2">0 kWh</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Weather API section -->
+      <section
+        id="weather"
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6"
+      >
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
+          <div>
+            <p class="text-sm font-bold text-emerald-700">WEATHER API</p>
+            <h2 class="text-2xl font-bold mt-1">Current local weather</h2>
+            <p class="text-sm text-slate-500 mt-1">
+              Search a city to get its current weather.
+            </p>
+          </div>
+          <div class="flex gap-2 w-full md:w-auto">
+            <input
+              id="cityInput"
+              type="text"
+              value="Chattogram"
+              placeholder="Enter city name"
+              class="border border-slate-300 rounded-xl px-4 py-3 w-full md:w-56 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+            />
+            <button
+              id="weatherButton"
+              class="bg-emerald-700 text-white hover:bg-emerald-800 transition-colors rounded-xl px-5 py-3 font-semibold"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+
+        <div id="weatherResult" class="mt-5 rounded-2xl bg-emerald-50 p-5">
+          <p id="weatherMessage" class="text-slate-600">
+            Enter a city and press Search.
+          </p>
+          <div id="weatherDetails" class="hidden">
+            <p id="weatherCity" class="font-semibold text-emerald-900"></p>
+            <p
+              id="weatherTemperature"
+              class="text-4xl font-bold text-emerald-900 mt-2"
+            ></p>
+            <p id="weatherDescription" class="text-slate-600 mt-1"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Appliance management section -->
+      <section
+        id="appliances"
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6"
+      >
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5"
+        >
+          <div>
+            <h2 class="text-2xl font-bold">My appliances</h2>
+            <p class="text-sm text-slate-500 mt-1">
+              Add and manage the appliances used at home.
+            </p>
+          </div>
+          <button
+            id="showFormButton"
+            class="bg-emerald-700 text-white hover:bg-emerald-800 transition-colors rounded-xl px-5 py-3 font-semibold"
+          >
+            + Add appliance
+          </button>
+        </div>
+
+        <!-- This form is shown when the user adds an appliance. -->
+        <form
+          id="applianceForm"
+          class="hidden bg-slate-50 rounded-2xl p-4 mb-5"
+        >
+          <h3 id="formHeading" class="font-bold text-lg mb-3">
+            Add an appliance
+          </h3>
+          <input type="hidden" id="editIndex" />
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <label class="text-sm font-semibold"
+              >Name
+              <input
+                id="applianceName"
+                required
+                type="text"
+                placeholder="Ceiling fan"
+                class="mt-1 border border-slate-300 rounded-lg p-3 w-full focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+              />
+            </label>
+            <label class="text-sm font-semibold"
+              >Power (watts)
+              <input
+                id="applianceWatts"
+                required
+                type="number"
+                min="1"
+                placeholder="75"
+                class="mt-1 border border-slate-300 rounded-lg p-3 w-full focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+              />
+            </label>
+            <label class="text-sm font-semibold"
+              >Hours per day
+              <input
+                id="applianceHours"
+                required
+                type="number"
+                min="0"
+                max="24"
+                step="0.5"
+                placeholder="8"
+                class="mt-1 border border-slate-300 rounded-lg p-3 w-full focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+              />
+            </label>
+            <label class="text-sm font-semibold"
+              >Quantity
+              <input
+                id="applianceQuantity"
+                required
+                type="number"
+                min="1"
+                value="1"
+                class="mt-1 border border-slate-300 rounded-lg p-3 w-full focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+              />
+            </label>
+          </div>
+          <div class="flex gap-2 mt-4">
+            <button
+              type="submit"
+              class="bg-emerald-700 text-white hover:bg-emerald-800 transition-colors rounded-lg px-5 py-2 font-semibold"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              id="cancelFormButton"
+              class="border border-slate-300 hover:bg-slate-100 rounded-lg px-5 py-2 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+
+        <!-- Search filters the appliance list by name. -->
+        <input
+          id="applianceSearch"
+          type="text"
+          placeholder="Search appliances..."
+          class="border border-slate-300 rounded-xl px-4 py-3 w-full sm:w-72 mb-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+        />
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left min-w-[600px]">
+            <thead class="bg-slate-50 text-slate-500">
+              <tr>
+                <th class="p-3">Appliance</th>
+                <th class="p-3">Power</th>
+                <th class="p-3">Hours/day</th>
+                <th class="p-3">Daily usage</th>
+                <th class="p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="applianceTable"></tbody>
+          </table>
+        </div>
+        <p id="emptyMessage" class="hidden text-center text-slate-500 py-8">
+          No appliances found. Add your first appliance.
+        </p>
+      </section>
+
+      <!-- Simple bill calculator -->
+      <section id="calculator" class="grid lg:grid-cols-2 gap-5">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+          <h2 class="text-2xl font-bold">Electricity bill calculator</h2>
+          <p class="text-sm text-slate-500 mt-1 mb-4">
+            Enter the rate shown on your electricity bill.
+          </p>
+          <label class="block text-sm font-semibold"
+            >Price per unit (৳ / kWh)
+            <input
+              id="unitRate"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="Example: 8.00"
+              class="border border-slate-300 rounded-xl p-3 w-full mt-2 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+            />
+          </label>
+          <label class="block text-sm font-semibold mt-3"
+            >Other charges (৳)
+            <input
+              id="fixedCharge"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0"
+              class="border border-slate-300 rounded-xl p-3 w-full mt-2 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+            />
+          </label>
+          <button
+            id="saveRateButton"
+            class="bg-emerald-700 text-white hover:bg-emerald-800 transition-colors rounded-xl px-5 py-3 font-semibold mt-4"
+          >
+            Save bill settings
+          </button>
+          <p id="saveMessage" class="text-xs text-slate-500 mt-3">
+            Your rate and charges are saved in this browser.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-emerald-50 border border-emerald-100">
+          <p class="text-sm font-bold text-emerald-800">
+            MONTHLY BILL ESTIMATE
+          </p>
+          <p class="text-slate-600 mt-4">
+            Energy cost: <strong id="energyCost">৳0.00</strong>
+          </p>
+          <p class="text-slate-600 mt-2">
+            Other charges: <strong id="otherCost">৳0.00</strong>
+          </p>
+          <div class="border-t border-emerald-200 mt-5 pt-4">
+            <p class="font-semibold">Estimated total</p>
+            <p id="totalCost" class="text-3xl font-bold text-emerald-900 mt-1">
+              ৳0.00
+            </p>
+          </div>
+          <p class="text-xs text-slate-500 mt-3">
+            This is an estimate. Actual bills may include slab rates, VAT and
+            other charges.
+          </p>
+        </div>
+      </section>
+
+      <!-- Simple usage summary -->
+      <section
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6"
+      >
+        <h2 class="text-2xl font-bold">Monthly appliance usage</h2>
+        <p class="text-sm text-slate-500 mt-1 mb-5">
+          A simple comparison of estimated monthly usage.
+        </p>
+        <div id="usageBars" class="space-y-4"></div>
+      </section>
+
+      <footer class="text-center text-xs text-slate-500 py-4">
+        EnergyWise · Household energy awareness · Estimates only
+      </footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
